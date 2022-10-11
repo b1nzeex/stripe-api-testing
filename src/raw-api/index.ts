@@ -2,7 +2,7 @@ import express, { Request, Response } from "express";
 import { createServer } from "http";
 import axios from "axios";
 import qs from "qs";
-import { STRIPE_API } from "../config";
+import { EXPRESS_API, STRIPE_API } from "../config";
 
 enum HttpStatus {
   "OK" = 200,
@@ -18,7 +18,7 @@ interface CreditCard {
 // Start our Express API
 const app = express();
 app.use(express.json());
-createServer(app).listen(8888, () => console.log("API is online"));
+createServer(app).listen(EXPRESS_API.port, () => console.log("API is online"));
 
 // Since we will be re-using these headers in axios requests, we will define a variable for them
 const requestHeaders = {

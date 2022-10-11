@@ -2,10 +2,7 @@ import Stripe from "stripe";
 import express, { type Request, type Response } from "express";
 import { createServer } from "http";
 import { join } from "path";
-import { STRIPE_API } from "../config";
-
-const DOMAIN = "http://127.0.0.1";
-const PORT = 8888;
+import { EXPRESS_API, STRIPE_API } from "../config";
 
 const app = express();
 app.use(express.static(join(__dirname, "public")));
@@ -14,7 +11,7 @@ const stripe = new Stripe(STRIPE_API.testSecretKey, {
   apiVersion: "2022-08-01",
 });
 
-createServer(app).listen(PORT, () => console.log("API is online"));
+createServer(app).listen(EXPRESS_API.port, () => console.log("API is online"));
 
 app.post("/create-checkout-session", async (_req: Request, res: Response) => {
   const session = await stripe.checkout.sessions.create({
@@ -25,8 +22,8 @@ app.post("/create-checkout-session", async (_req: Request, res: Response) => {
       },
     ],
     mode: "payment",
-    success_url: `${DOMAIN}:${PORT}/success.html`,
-    cancel_url: `${DOMAIN}:${PORT}/cancel.html`,
+    success_url: `${EXPRESS_API.domain}:${EXPRESS_API.port}/success.html`,
+    cancel_url: `${EXPRESS_API.domain}:${EXPRESS_API.port}/cancel.html`,
   });
 
   return res.status(303).redirect(session.url);
