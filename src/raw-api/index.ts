@@ -2,7 +2,7 @@ import express, { Request, Response } from "express";
 import { createServer } from "http";
 import axios from "axios";
 import qs from "qs";
-import { STRIPE_API } from "./config";
+import { STRIPE_API } from "../config";
 
 enum HttpStatus {
   "OK" = 200,
